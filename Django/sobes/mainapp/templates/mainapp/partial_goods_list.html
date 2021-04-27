@@ -1,0 +1,9 @@
+{% for good in goods %}
+    <tr>
+        <th scope="row">{{ good.pk }}</th>
+        <td>{{ good.name }}</td>
+        <td>{{ good.created_at }}</td>
+        <td>{{ good.price }}</td>
+        <td>{{ good.vendor }}</td>
+    </tr>
+{% endfor %}

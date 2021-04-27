@@ -13,18 +13,32 @@
             </tr>
             </thead>
             <tbody>
-            {% for good in goods %}
-                <tr>
-                    <th scope="row">{{ good.pk }}</th>
-                    <td>{{ good.name }}</td>
-                    <td>{{ good.created_at }}</td>
-                    <td>{{ good.price }}</td>
-                    <td>{{ good.vendor }}</td>
-                </tr>
-            {% endfor %}
-
+            {% include 'mainapp/partial_goods_list.html' %}
             </tbody>
         </table>
     </div>
     <a class="btn btn-primary" href="{% url 'mainapp:good_create' %}">Создать товар</a>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-url="{% url 'mainapp:good_create' %}"
+            data-target="
+            #exampleModalCenter">
+        Launch static backdrop modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Создание товара</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% include 'mainapp/good_create.html' %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

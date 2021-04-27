@@ -1,13 +1,15 @@
-{% extends 'mainapp/base.html' %}
+{#{% extends 'mainapp/base.html' %}#}
 {% load static %}
-{% block content %}
-    <div class="h2 text-center head">
-        Создание товара
-    </div>
-    <form class="form-horizontal" method="post" action="{% url 'main:good_create' %}"
-          enctype="multipart/form-data">
+
+<form class="form-horizontal" method="post" action="{% url 'main:good_create' %}"
+      enctype="multipart/form-data" class="js-good-create-form">
+    {% csrf_token %}
+    <div class="modal-body">
         {% include 'mainapp/form.html' %}
-    </form>
-    <a class="btn" href="{% url 'main:goods_list' %}"
-       aria-disabled="true">Вернуться к списку</a>
-{% endblock %}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" value="Сохранить">Save changes</button>
+    </div>
+    <br>
+</form>
