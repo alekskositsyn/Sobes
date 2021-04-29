@@ -22,9 +22,7 @@ def goods_list(request):
 def good_create(request):
     if request.method == 'POST':
         form = CreateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return save_good_form(request, form, "good_create.html")
+        return save_good_form(request, form, "main/goods_create.html")
     else:
         form = CreateForm()
     content = {
@@ -44,8 +42,8 @@ def save_good_form(request, form, template_name):
             data['html_good_list'] = render_to_string('mainapp/goods_list.html', {
                 'goods': goods
             })
-    else:
-        data['form_is_valid'] = False
-        context = {'form': form}
-        data['html_form'] = render_to_string(template_name, context, request=request)
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
