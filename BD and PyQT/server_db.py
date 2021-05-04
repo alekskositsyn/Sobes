@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey, DateTime
+from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
 from sqlalchemy.orm import mapper, sessionmaker
 
 
@@ -39,8 +39,8 @@ class ServerStorage:
         def __init__(self):
             self.position = None
 
-    def __init__(self):
-        self.creator_database = create_engine('sqlite:///sobesbd.sqlite', echo=False, pool_recycle=7200)
+    def __init__(self, path):
+        self.creator_database = create_engine(f'sqlite:///{path}', echo=False, pool_recycle=7200)
         self.metadata = MetaData()
         categories_table = Table('Categories', self.metadata,
                                  Column('category_id', Integer, primary_key=True),
@@ -93,12 +93,22 @@ class ServerStorage:
 
     def goods_list(self):
         query = self.session.query(
+            self.Goods.good_id,
             self.Goods.good_name,
             self.Goods.good_cat,
         )
         return query.all()
 
+        # Функция добавляет контакт для пользователя.
+
+    def add_good(self, good_unit, good_name, good_cat):
+        # Создаём объект и заносим его в базу
+        good_row = self.Goods(good_unit, good_name, good_cat)
+        self.session.add(good_row)
+        self.session.commit()
+
 
 if __name__ == '__main__':
-    db_test = ServerStorage()
+    db_test = ServerStorage('sobesbd.sqlite')
     print(db_test.goods_list())
+    db_test.add_good('1', 'Ведро', '2')
